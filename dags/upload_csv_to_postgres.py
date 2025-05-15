@@ -5,21 +5,21 @@ import psycopg2
 import os
 import pandas as pd
 from sqlalchemy import create_engine
+from airflow.operators.bash import BashOperator
 
-# def xlsx_to_csv(xlsx_file, csv_file):
-#     df = pd.read_excel(xlsx_file)
+def xlsx_to_csv(xlsx_file, csv_file):
+    df = pd.read_excel(xlsx_file)
     
-#     df.to_csv(csv_file, index=False)
-#     print(f"Conversion terminée : {csv_file}")
+    df.to_csv(csv_file, index=False)
+    print(f"Conversion terminée : {csv_file}")
 
 def load_csv_with_pandas():
-    csv_path = '/data/sales.csv'
+    csv_path = '/data/csv/sales.csv'
     table_name = 'raw_sales_data'
 
-    # Crée le moteur SQLAlchemy pour PostgreSQL
+    #moteur SQLAlchemy pour PostgreSQL
     engine = create_engine('postgresql+psycopg2://airflow:airflow@postgres:5432/airflow_db')
 
-    # Lire le fichier CSV (tabulé)
     df = pd.read_csv(csv_path, sep=',')
 
     # Charger dans PostgreSQL
@@ -37,16 +37,22 @@ with DAG(
     catchup=False,
 ) as dag:
     
-    # convert_type_file = PythonOperator(
-    #     task_id='convert_xlsx_to_csv',
-    #     python_callable=xlsx_to_csv,
-    #     op_args=["/data/xlsx/Online Retail.xlsx", "/data/csv/sales.csv"]
-    # )
+    convert_type_file = PythonOperator(
+        task_id='convert_xlsx_to_csv',
+        python_callable=xlsx_to_csv,
+        op_args=["/data/xlsx/Online Retail.xlsx", "/data/csv/sales.csv"]
+    )
 
     load_data_postgres = PythonOperator(
         task_id='load_csv_to_postgres',
         python_callable=load_csv_with_pandas
     )
 
-    # convert_type_file >> 
-    load_data_postgres
+    run_dbt = BashOperator(
+        task_id='run_dbt',
+        bash_command='dbt run --profiles-dir /usr/app/dbt_project --project-dir /usr/app/dbt_project',
+        env={"DBT_PROFILES_DIR": "/usr/app/dbt_project"},
+    )
+
+
+    convert_type_file >> load_data_postgres >> run_dbt

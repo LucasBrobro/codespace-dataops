@@ -1,0 +1,34 @@
+[2025-05-15T13:20:23.912+0000] {taskinstance.py:1087} INFO - Dependencies all met for <TaskInstance: sales_ingestion.run_dbt manual__2025-05-15T13:19:33.548987+00:00 [queued]>
+[2025-05-15T13:20:23.918+0000] {taskinstance.py:1087} INFO - Dependencies all met for <TaskInstance: sales_ingestion.run_dbt manual__2025-05-15T13:19:33.548987+00:00 [queued]>
+[2025-05-15T13:20:23.918+0000] {taskinstance.py:1283} INFO - 
+--------------------------------------------------------------------------------
+[2025-05-15T13:20:23.919+0000] {taskinstance.py:1284} INFO - Starting attempt 1 of 1
+[2025-05-15T13:20:23.919+0000] {taskinstance.py:1285} INFO - 
+--------------------------------------------------------------------------------
+[2025-05-15T13:20:23.928+0000] {taskinstance.py:1304} INFO - Executing <Task(BashOperator): run_dbt> on 2025-05-15 13:19:33.548987+00:00
+[2025-05-15T13:20:23.931+0000] {standard_task_runner.py:55} INFO - Started process 212 to run task
+[2025-05-15T13:20:23.933+0000] {standard_task_runner.py:82} INFO - Running: ['***', 'tasks', 'run', 'sales_ingestion', 'run_dbt', 'manual__2025-05-15T13:19:33.548987+00:00', '--job-id', '4', '--raw', '--subdir', 'DAGS_FOLDER/upload_csv_to_postgres.py', '--cfg-path', '/tmp/tmp8ryutr59']
+[2025-05-15T13:20:23.934+0000] {standard_task_runner.py:83} INFO - Job 4: Subtask run_dbt
+[2025-05-15T13:20:24.011+0000] {task_command.py:389} INFO - Running <TaskInstance: sales_ingestion.run_dbt manual__2025-05-15T13:19:33.548987+00:00 [running]> on host f38ae828ec38
+[2025-05-15T13:20:24.058+0000] {taskinstance.py:1513} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=sales_ingestion
+AIRFLOW_CTX_TASK_ID=run_dbt
+AIRFLOW_CTX_EXECUTION_DATE=2025-05-15T13:19:33.548987+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2025-05-15T13:19:33.548987+00:00
+[2025-05-15T13:20:24.059+0000] {subprocess.py:63} INFO - Tmp dir root location: 
+ /tmp
+[2025-05-15T13:20:24.059+0000] {subprocess.py:75} INFO - Running command: ['/bin/bash', '-c', 'dbt run --profiles-dir /usr/app/dbt_project --project-dir /usr/app/dbt_project']
+[2025-05-15T13:20:24.065+0000] {subprocess.py:86} INFO - Output:
+[2025-05-15T13:20:24.065+0000] {subprocess.py:93} INFO - /bin/bash: line 1: dbt: command not found
+[2025-05-15T13:20:24.066+0000] {subprocess.py:97} INFO - Command exited with return code 127
+[2025-05-15T13:20:24.071+0000] {taskinstance.py:1772} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/bash.py", line 197, in execute
+    f"Bash command failed. The command returned a non-zero exit code {result.exit_code}."
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 127.
+[2025-05-15T13:20:24.074+0000] {taskinstance.py:1327} INFO - Marking task as FAILED. dag_id=sales_ingestion, task_id=run_dbt, execution_date=20250515T131933, start_date=20250515T132023, end_date=20250515T132024
+[2025-05-15T13:20:24.082+0000] {standard_task_runner.py:105} ERROR - Failed to execute job 4 for task run_dbt (Bash command failed. The command returned a non-zero exit code 127.; 212)
+[2025-05-15T13:20:24.104+0000] {local_task_job.py:159} INFO - Task exited with return code 1
+[2025-05-15T13:20:24.115+0000] {taskinstance.py:2582} INFO - 0 downstream tasks scheduled from follow-on schedule check

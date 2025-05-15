@@ -1,0 +1,2 @@
+[2025-05-15T13:13:42.212+0000] {taskinstance.py:1081} INFO - Dependencies not met for <TaskInstance: sales_ingestion.load_csv_to_postgres manual__2025-05-15T13:13:40.877442+00:00 [queued]>, dependency 'Trigger Rule' FAILED: Task's trigger rule 'all_success' requires all upstream tasks to have succeeded, but found 1 non-success(es). upstream_states=_UpstreamTIStates(success=0, skipped=0, failed=0, upstream_failed=0, removed=0, done=0), upstream_task_ids={'convert_xlsx_to_csv'}
+[2025-05-15T13:13:42.215+0000] {local_task_job.py:98} INFO - Task is not able to be run
